@@ -8,6 +8,7 @@ const apiKey =
 
 class MoviesListNotifier extends StateNotifier<List<Map<String, dynamic>>> {
   MoviesListNotifier() : super([]);
+
   void fetchPopularMovies(int num) async {
     final url = Uri.https('api.themoviedb.org', '/3/movie/popular', {
       'page': '$num',
@@ -16,12 +17,12 @@ class MoviesListNotifier extends StateNotifier<List<Map<String, dynamic>>> {
       'Authorization': 'Bearer $apiKey ',
       'accept': 'application/json',
     };
-    try {
-      var response = await http.get(url, headers: headers);
+    state = [];
+
+    var response = await http.get(url, headers: headers);
+    if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       state = [...data['results']];
-    } catch (e) {
-      state = [];
     }
   }
 }
