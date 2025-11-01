@@ -23,47 +23,92 @@ class _MoviesListScreenState extends ConsumerState<MoviesListScreen> {
       content = MoviesGridview();
     }
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.lightBlueAccent,
-        title: Text(
-          'List Page',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.w500,
-            fontSize: 26,
-          ),
-        ),
-        actions: [
-          Row(
-            children: [
-              Stack(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (ctx) => FavoriteScreen()),
-                      );
-                    },
-                    icon: Icon(Icons.favorite, size: 28),
+      // appBar: AppBar(
+      //   backgroundColor: Colors.lightBlueAccent,
+      //   title: Text(
+      //     'List Page',
+      //     style: TextStyle(
+      //       color: Colors.white,
+      //       fontWeight: FontWeight.w500,
+      //       fontSize: 26,
+      //     ),
+      //   ),
+      //   actions: [
+      //
+      //   ],
+      // ),
+      body: DefaultTabController(
+        length: 2,
+        child: NestedScrollView(
+          headerSliverBuilder: (context, value) {
+            return [
+              SliverAppBar(
+                backgroundColor: Colors.lightBlue,
+                title: Text(
+                  'List Page',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 26,
                   ),
-                  if (favoriteMovies.isNotEmpty)
-                    Container(
-                      height: 20,
-                      width: 20,
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(15),
+                ),
+                actions: [
+                  Row(
+                    children: [
+                      Stack(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (ctx) => FavoriteScreen(),
+                                ),
+                              );
+                            },
+                            icon: Icon(Icons.favorite, size: 28),
+                          ),
+                          if (favoriteMovies.isNotEmpty)
+                            Container(
+                              height: 20,
+                              width: 20,
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Center(
+                                child: Text('${favoriteMovies.length}'),
+                              ),
+                            ),
+                        ],
                       ),
-                      child: Center(child: Text('${favoriteMovies.length}')),
-                    ),
+                      IconButton(
+                        onPressed: () {},
+                        icon: Icon(Icons.more_horiz),
+                      ),
+                    ],
+                  ),
                 ],
               ),
-              IconButton(onPressed: () {}, icon: Icon(Icons.more_horiz)),
-            ],
-          ),
-        ],
+              SliverToBoxAdapter(
+                child: Container(
+                  color: Colors.lightBlue,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Text('genre', style: TextStyle(color: Colors.white)),
+                      Text(
+                        'page($pageNum/500)',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ];
+          },
+          body: content,
+        ),
       ),
-      body: content,
       bottomNavigationBar: BottomNavigationBar(
         onTap: (value) {
           if (value == 0 && pageNum != 1) {

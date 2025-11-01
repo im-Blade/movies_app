@@ -13,6 +13,9 @@ class MoviesGridview extends ConsumerWidget {
     final movies = ref.watch(moviesListProvider);
     final favoriteMovies = ref.watch(favoriteMovieProvider);
     return GridView.builder(
+      padding: EdgeInsets.zero,
+      primary: false,
+      shrinkWrap: true,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
         mainAxisSpacing: 5,
@@ -43,7 +46,13 @@ class MoviesGridview extends ConsumerWidget {
                   width: double.infinity,
                   placeholder: (context, url) =>
                       Center(child: CircularProgressIndicator()),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
+                  errorWidget: (context, url, error) => Center(
+                    child: Icon(
+                      Icons.error,
+                      size: 24,
+                      color: Colors.red,
+                    ),
+                  ),
                 ),
               ),
               if (favoriteMovies.any((m) => m['id'] == movie['id']))
@@ -73,7 +82,7 @@ class MoviesGridview extends ConsumerWidget {
                   child: Column(
                     children: [
                       Text(
-                        movie["original_title"],
+                        movie["title"],
                         maxLines: 2,
                         textAlign: TextAlign.center,
                         softWrap: true,
@@ -86,10 +95,6 @@ class MoviesGridview extends ConsumerWidget {
                       ),
                       Text(
                         vote.toStringAsFixed(1),
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      Text(
-                        '${movie["original_language"]}',
                         style: TextStyle(color: Colors.white),
                       ),
                     ],
