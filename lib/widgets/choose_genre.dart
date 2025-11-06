@@ -1,16 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movie_app/model/genres.dart';
 
-class ChooseGenre extends ConsumerStatefulWidget {
+class ChooseGenre extends StatefulWidget {
   const ChooseGenre({super.key});
 
   @override
-  ConsumerState<ChooseGenre> createState() => _ChooseGenreState();
+  State<ChooseGenre> createState() => _ChooseGenreState();
 }
 
-class _ChooseGenreState extends ConsumerState<ChooseGenre> {
+class _ChooseGenreState extends State<ChooseGenre> {
   int? choosengenre;
   final page = 1;
   @override
