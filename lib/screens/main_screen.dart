@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movie_app/provider/favorite_provider.dart';
-import 'package:movie_app/provider/movies_provider.dart';
+import 'package:movie_app/provider/movies_details_provider.dart';
 import 'package:movie_app/screens/favorite_screen.dart';
 import 'package:movie_app/screens/movies_list.dart';
-import 'package:movie_app/screens/one_page.dart';
 import 'package:movie_app/widgets/button.dart';
 
 class MainScreen extends ConsumerWidget {
@@ -34,7 +33,9 @@ class MainScreen extends ConsumerWidget {
             MyButton(
               name: 'Movies List',
               onPress: () {
-                ref.read(moviesListProvider.notifier).fetchPopularMovies(count);
+                ref
+                    .read(moviesListProvider.notifier)
+                    .fetchPopularMovies(count, null);
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (ctx) => const MoviesListScreen()),
                 );
@@ -63,14 +64,6 @@ class MainScreen extends ConsumerWidget {
                     child: Center(child: Text('${favoriteMovies.length}')),
                   ),
               ],
-            ),
-            MyButton(
-              name: 'One Page',
-              onPress: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (ctx) => const OnePageScreen()),
-                );
-              },
             ),
           ],
         ),

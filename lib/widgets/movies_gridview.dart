@@ -2,7 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:movie_app/provider/favorite_provider.dart';
-import 'package:movie_app/provider/movies_provider.dart';
+import 'package:movie_app/provider/movie_trailer_provider.dart';
+import 'package:movie_app/provider/movies_details_provider.dart';
 import 'package:movie_app/screens/movie_details.dart';
 
 class MoviesGridview extends ConsumerWidget {
@@ -10,8 +11,10 @@ class MoviesGridview extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final movies = ref.watch(moviesListProvider);
+    final moviesState = ref.watch(moviesListProvider);
     final favoriteMovies = ref.watch(favoriteMovieProvider);
+    final movie = moviesState as MovieData;
+    final List movies = movie.movies;
     return GridView.builder(
       padding: EdgeInsets.zero,
       primary: false,
@@ -28,6 +31,9 @@ class MoviesGridview extends ConsumerWidget {
         final vote = movie["vote_average"] as double;
         return InkWell(
           onTap: () {
+            ref
+                .read(movieTraillerProvider.notifier)
+                .fetchMovieTrailler(movie['id']);
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (ctx) => MovieDetailsScreen(movieDetails: movie),
